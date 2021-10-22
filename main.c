@@ -21,34 +21,53 @@ const TCHAR usbtools_classname[] = L"USBTools";
 TCHAR usbtools_title[MAX_LOADSTRING];
 
 
+int CALLBACK AboutDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg)
+	{
+		case WM_INITDIALOG:
+			return TRUE;
+		case WM_COMMAND:
+			switch (LOWORD(wParam))
+			{
+				case IDOK:
+					EndDialog(hwnd, IDOK);
+					break;
+			}
+			break;
+		case WM_CLOSE:
+			EndDialog(hwnd, TRUE);
+			break;
+		default:
+			return FALSE;
+	}
+	return TRUE;
+}
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{
 		case WM_COMMAND:
-		{
-			switch (LOWORD(lParam))
+			switch (LOWORD(wParam))
 			{
 				case ID_FILE_EXIT:
-				{
 					PostMessage(hwnd, WM_CLOSE, 0, 0);
-				}
+					break;
+				case ID_ABOUT:
+					if (!DialogBox(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_ABOUT), hwnd, AboutDlgProc)) {
+						DEBUGPRINT(L"About dialog box failed\r\n");
+					}
+					break;
 			}
-		}
+			break;
 		case WM_CLOSE:
-		{
 			DestroyWindow(hwnd);
 			break;
-		}
 		case WM_DESTROY:
-		{
 			PostQuitMessage(0);
 			break;
-		}
 		default:
-		{
 			return DefWindowProc(hwnd, msg, wParam, lParam);
-		}
 	}
 	return 0;
 }
