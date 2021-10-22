@@ -17,7 +17,8 @@
  */
 #include "main.h"
 
-const wchar_t usbtools_classname[] = L"USBTools";
+const TCHAR usbtools_classname[] = L"USBTools";
+TCHAR usbtools_title[MAX_LOADSTRING];
 
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -42,9 +43,13 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+void load_resources(HINSTANCE hInstance) {
+	LoadString(hInstance, MAKEINTRESOURCE(IDS_APP_TITLE), usbtools_title, MAX_LOADSTRING);
+}
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
+	// Load and register class
 	WNDCLASSEX wce = { 0 };
 	wce.lpszClassName = usbtools_classname;
 	wce.cbSize = sizeof(WNDCLASSEX);
@@ -58,15 +63,16 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	wce.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wce.hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_MAINICON));
 	wce.hIconSm = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_SMALLICON));
-	
 	if (!RegisterClassEx(&wce))
 	{
 		DEBUGPRINT(L"Window class registration failed\r\n");
 		return 0;
 	}
-	DEBUGPRINT(L"Registration success!\r\n");
+	// Load resources
+	load_resources(hInstance);
 
-	HWND hwnd = CreateWindowEx(WS_EX_APPWINDOW, usbtools_classname, L"USB Tools", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 320, 240, NULL, NULL, hInstance, NULL);
+	// Create and display window
+	HWND hwnd = CreateWindowEx(WS_EX_APPWINDOW, usbtools_classname, usbtools_title, WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 320, 240, NULL, NULL, hInstance, NULL);
 	if (hwnd == NULL)
 	{
 		DEBUGPRINT(L"Window creation failed\r\n");

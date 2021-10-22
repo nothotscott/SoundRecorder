@@ -1,5 +1,21 @@
+#include <windef.h>
+#include <winuser.h>
 #include "resource.h"
 
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+
+#ifdef __REACTOS
+	#include <reactos/manifest_exe.rc>
+#endif
+
+// *** Universal resources *** ///
 
 IDI_MAINICON ICON DISCARDABLE "res/mainico.ico"
 IDI_SMALLICON ICON DISCARDABLE "res/smallico.ico"
+
+
+// *** Languages *** //
+
+#pragma code_page(65001)
+
+#include "lang/en-US.rc"

@@ -6,4 +6,5 @@
 
 #define IDI_MAINICON	101
 #define IDI_SMALLICON	102
+#define IDS_APP_TITLE	103
 

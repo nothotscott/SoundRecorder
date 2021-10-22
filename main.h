@@ -1,14 +1,11 @@
-#ifndef __SOUNDRECORDER_H__
-#define __SOUNDRECORDER_H__
+#pragma once
 
 #include <windows.h>
 #include "resource.h"
 
+#define MAX_LOADSTRING 128
+
 #define DEBUGPRINT(...)	(OutputDebugStringW(__VA_ARGS__))
 
 extern const wchar_t usbtools_classname[];
-
-
-
-
-#endif
+extern TCHAR usbtools_title[MAX_LOADSTRING];
