@@ -1,7 +1,11 @@
 #ifndef __SOUNDRECORDER_H__
 #define __SOUNDRECORDER_H__
 
-#include <stdio.h>
+#include <windows.h>
+
+#define DEBUGPRINT(...)	(OutputDebugStringW(__VA_ARGS__))
+
+extern const wchar_t soundrecorder_classname[];
 
 
 
