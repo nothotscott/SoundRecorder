@@ -4,5 +4,6 @@
 #define IDC_STATIC	-1
 #endif
 
-#define IDI_MIC	101
+#define IDI_MAINICON	101
+#define IDI_SMALLICON	102
 

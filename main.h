@@ -6,7 +6,7 @@
 
 #define DEBUGPRINT(...)	(OutputDebugStringW(__VA_ARGS__))
 
-extern const wchar_t soundrecorder_classname[];
+extern const wchar_t usbtools_classname[];
 
 
 

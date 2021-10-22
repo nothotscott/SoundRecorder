@@ -1,5 +1,5 @@
 ﻿/*
- * Sound Recorder
+ * USB Tools
  * Copyright (C) 2021 Scott Maday
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,9 +15,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "soundrecorder.h"
+#include "main.h"
 
-const wchar_t soundrecorder_classname[] = L"SoundRecorder";
+const wchar_t usbtools_classname[] = L"USBTools";
 
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -46,7 +46,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
 	WNDCLASSEX wce = { 0 };
-	wce.lpszClassName = soundrecorder_classname;
+	wce.lpszClassName = usbtools_classname;
 	wce.cbSize = sizeof(WNDCLASSEX);
 	wce.style = 0;
 	wce.lpfnWndProc = WindowProc;
@@ -56,8 +56,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	wce.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 	wce.lpszMenuName = NULL;
 	wce.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wce.hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_MIC));
-	wce.hIconSm = (HICON)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_MIC), IMAGE_ICON, 16, 16, 0);
+	wce.hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_MAINICON));
+	wce.hIconSm = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_SMALLICON));
+	
 	if (!RegisterClassEx(&wce))
 	{
 		DEBUGPRINT(L"Window class registration failed\r\n");
@@ -65,7 +66,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	}
 	DEBUGPRINT(L"Registration success!\r\n");
 
-	HWND hwnd = CreateWindowEx(WS_EX_APPWINDOW, soundrecorder_classname, L"Sound Recorder", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 320, 240, NULL, NULL, hInstance, NULL);
+	HWND hwnd = CreateWindowEx(WS_EX_APPWINDOW, usbtools_classname, L"USB Tools", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 320, 240, NULL, NULL, hInstance, NULL);
 	if (hwnd == NULL)
 	{
 		DEBUGPRINT(L"Window creation failed\r\n");
