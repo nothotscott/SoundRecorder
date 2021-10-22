@@ -25,6 +25,16 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{
+		case WM_COMMAND:
+		{
+			switch (LOWORD(lParam))
+			{
+				case ID_FILE_EXIT:
+				{
+					PostMessage(hwnd, WM_CLOSE, 0, 0);
+				}
+			}
+		}
 		case WM_CLOSE:
 		{
 			DestroyWindow(hwnd);
@@ -44,10 +54,10 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 }
 
 void load_resources(HINSTANCE hInstance) {
-	LoadString(hInstance, MAKEINTRESOURCE(IDS_APP_TITLE), usbtools_title, MAX_LOADSTRING);
+	LoadString(hInstance, IDS_APP_TITLE, usbtools_title, MAX_LOADSTRING);
 }
 
-int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR lpCmdLine, int nShowCmd)
 {
 	// Load and register class
 	WNDCLASSEX wce = { 0 };
@@ -59,7 +69,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	wce.cbWndExtra = 0;
 	wce.hInstance = hInstance;
 	wce.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-	wce.lpszMenuName = NULL;
+	wce.lpszMenuName = MAKEINTRESOURCE(IDR_MAINMENU);
 	wce.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wce.hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_MAINICON));
 	wce.hIconSm = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_SMALLICON));

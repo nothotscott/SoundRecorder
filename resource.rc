@@ -19,3 +19,4 @@ IDI_SMALLICON ICON DISCARDABLE "res/smallico.ico"
 #pragma code_page(65001)
 
 #include "lang/en-US.rc"
+

@@ -8,3 +8,6 @@
 #define IDI_SMALLICON	102
 #define IDS_APP_TITLE	103
 
+#define IDR_MAINMENU	201	
+
+#define ID_FILE_EXIT	9001
