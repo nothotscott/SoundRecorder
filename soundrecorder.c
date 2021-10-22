@@ -55,18 +55,20 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	wce.hInstance = hInstance;
 	wce.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 	wce.lpszMenuName = NULL;
-	wce.hCursor = LoadCursor(NULL, IDC_CROSS);
+	wce.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wce.hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_MIC));
+	wce.hIconSm = (HICON)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_MIC), IMAGE_ICON, 16, 16, 0);
 	if (!RegisterClassEx(&wce))
 	{
-		DEBUGPRINT(L"Window class registration failed");
+		DEBUGPRINT(L"Window class registration failed\r\n");
 		return 0;
 	}
-	DEBUGPRINT(L"Registration success!");
+	DEBUGPRINT(L"Registration success!\r\n");
 
 	HWND hwnd = CreateWindowEx(WS_EX_APPWINDOW, soundrecorder_classname, L"Sound Recorder", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, 320, 240, NULL, NULL, hInstance, NULL);
 	if (hwnd == NULL)
 	{
-		DEBUGPRINT(L"Window creation failed");
+		DEBUGPRINT(L"Window creation failed\r\n");
 		return 0;
 	}
 	ShowWindow(hwnd, nShowCmd);
@@ -74,7 +76,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 
 	// Process loop
 	MSG msg = { 0 };
-	while (GetMessage(&msg, NULL, 0, 0))
+	while (GetMessage(&msg, NULL, 0, 0) > 0)
 	{
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);

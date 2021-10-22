@@ -2,6 +2,7 @@
 #define __SOUNDRECORDER_H__
 
 #include <windows.h>
+#include "resource.h"
 
 #define DEBUGPRINT(...)	(OutputDebugStringW(__VA_ARGS__))
 

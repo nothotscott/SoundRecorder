@@ -1,0 +1,4 @@
+#include "resource.h"
+
+
+IDI_MIC ICON DISCARDABLE "res/mic.ico"

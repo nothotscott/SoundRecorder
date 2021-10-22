@@ -2,7 +2,12 @@
 project ("SoundRecorder")
 
 file(GLOB PROJ_SOURCES *.c)
+file(GLOB PROJ_RESOURCES res/*)
 
 add_definitions(-DUNICODE -D_UNICODE)
 
-add_executable(${CMAKE_PROJECT_NAME} WIN32 ${PROJ_SOURCES})
+if(${CMAKE_BUILD_TYPE} STREQUAL "RelWithDebInfo")
+	add_compile_options("$<$<CONFIG:RelWithDebInfo>:/MT>")
+endif()
+
+add_executable(${CMAKE_PROJECT_NAME} WIN32 ${PROJ_SOURCES} resource.rc)
