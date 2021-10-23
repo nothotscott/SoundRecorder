@@ -22,10 +22,8 @@ TCHAR g_szTitle[MAX_LOADSTRING];
 
 void fnLayoutWindow(HWND);
 
-static HWND hWndComboBox;
 
-
-int CALLBACK AboutDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK AboutDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg)
 	{
@@ -35,18 +33,19 @@ int CALLBACK AboutDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			switch (LOWORD(wParam))
 			{
 				case IDOK:
-					EndDialog(hwnd, IDOK);
+					EndDialog(hWnd, IDOK);
 					break;
 			}
 			break;
 		case WM_CLOSE:
-			EndDialog(hwnd, TRUE);
+			EndDialog(hWnd, TRUE);
 			break;
 		default:
 			return FALSE;
 	}
 	return TRUE;
 }
+
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg)
@@ -55,7 +54,6 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			fnLayoutWindow(hWnd);
 			break;
 		case WM_COMMAND:
-			DEBUGINT(LOWORD(wParam));
 			switch (LOWORD(wParam))
 			{
 				case ID_FILE_EXIT:
@@ -66,6 +64,15 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 						DEBUGPRINT(L"About dialog box failed\r\n");
 					}
 					break;
+				case IDC_COMBOBOX:
+					switch (HIWORD(wParam))
+					{
+						case CBN_SELCHANGE:
+						{
+							DEBUGPRINT(L"yay\r\n");
+							break;
+						}
+					}
 			}
 			break;
 		case WM_CLOSE:
@@ -130,11 +137,12 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR lpCmdLin
 }
 
 void fnLayoutWindow(HWND hWnd) {
-	hWndComboBox = CreateWindowEx(WS_EX_WINDOWEDGE, L"ComboBox", L"ComboBox1",  CBS_DROPDOWNLIST | CBS_HASSTRINGS | WS_CHILD | WS_VISIBLE | WS_OVERLAPPED, 7, 7, 200, 200, hWnd, NULL, GetModuleHandle(NULL), NULL);
+	HWND hWndComboBox = CreateWindowEx(WS_EX_WINDOWEDGE, L"ComboBox", L"ComboBox1",  CBS_DROPDOWNLIST | CBS_HASSTRINGS | WS_CHILD | WS_VISIBLE | WS_OVERLAPPED, 7, 7, 200, 200, hWnd, IDC_COMBOBOX, GetModuleHandle(NULL), NULL);
 	if (hWndComboBox == NULL)
 	{
 		DEBUGPRINT(L"Could not create ComboBox\r\n");
 		return;
 	}
 	SendMessage(hWndComboBox, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(0, 0));
+	SendMessage(hWndComboBox, (UINT)CB_ADDSTRING, (WPARAM)0, (LPARAM)L"Hello");
 }
