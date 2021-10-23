@@ -12,5 +12,4 @@
 #define ID_FILE_EXIT	20101
 #define ID_ABOUT		20102
 
-#define IDD_ABOUT		301
-
+#define IDD_ABOUT_DIALOG	301
