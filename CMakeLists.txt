@@ -11,3 +11,4 @@ if(${CMAKE_BUILD_TYPE} STREQUAL "RelWithDebInfo")
 endif()
 
 add_executable(${CMAKE_PROJECT_NAME} WIN32 ${PROJ_SOURCES} resource.rc)
+target_link_libraries(${CMAKE_PROJECT_NAME} setupapi.lib)

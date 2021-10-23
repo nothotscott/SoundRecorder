@@ -16,11 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "main.h"
+#include "tools.h"
 
 const TCHAR g_szClassName[] = L"USBTools";
 TCHAR g_szTitle[MAX_LOADSTRING];
 
 void fnLayoutWindow(HWND);
+LRESULT CALLBACK fnAddDevice(PUSBTOOLS_DEVICE);
 
 
 LRESULT CALLBACK AboutDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
@@ -52,6 +54,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		case WM_CREATE:
 			fnLayoutWindow(hWnd);
+			UsbToolsLoadDevices(hWnd, fnAddDevice);
 			break;
 		case WM_COMMAND:
 			switch (LOWORD(wParam))
@@ -76,6 +79,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 			break;
 		case WM_CLOSE:
+			UsbToolsFreeDevices();
 			DestroyWindow(hWnd);
 			break;
 		case WM_DESTROY:
@@ -137,12 +141,16 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR lpCmdLin
 }
 
 void fnLayoutWindow(HWND hWnd) {
-	HWND hWndComboBox = CreateWindowEx(WS_EX_WINDOWEDGE, L"ComboBox", L"ComboBox1",  CBS_DROPDOWNLIST | CBS_HASSTRINGS | WS_CHILD | WS_VISIBLE | WS_OVERLAPPED, 7, 7, 200, 200, hWnd, IDC_COMBOBOX, GetModuleHandle(NULL), NULL);
+	HWND hWndComboBox = CreateWindowEx(WS_EX_WINDOWEDGE, L"ComboBox", L"ComboBox1",  CBS_DROPDOWNLIST | CBS_HASSTRINGS | WS_CHILD | WS_VISIBLE | WS_OVERLAPPED, 7, 7, 280, 200, hWnd, (HMENU)IDC_COMBOBOX, GetModuleHandle(NULL), NULL);
 	if (hWndComboBox == NULL)
 	{
 		DEBUGPRINT(L"Could not create ComboBox\r\n");
 		return;
 	}
 	SendMessage(hWndComboBox, WM_SETFONT, (WPARAM)GetStockObject(DEFAULT_GUI_FONT), MAKELPARAM(0, 0));
-	SendMessage(hWndComboBox, (UINT)CB_ADDSTRING, (WPARAM)0, (LPARAM)L"Hello");
+}
+
+LRESULT CALLBACK fnAddDevice(HWND hWnd, PUSBTOOLS_DEVICE device) {
+	SendMessage(GetDlgItem(hWnd, IDC_COMBOBOX), (UINT)CB_ADDSTRING, (WPARAM)0, (LPARAM)device->szInstanceId);
+	return 0;
 }
